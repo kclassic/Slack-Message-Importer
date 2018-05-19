@@ -6,7 +6,7 @@ type User = {
     Id          : string
     Name        : string
     DisplayName : string
-    TimeZone    : TimeZoneInfo
+    TimeZone    : string
 }
 
 type Topic = {
@@ -20,7 +20,7 @@ type Purpose = {
 type Channel = {
     Id      : string
     Name    : string
-    Members : User[]
+    Members : string[]
     Topic   : Topic
     Purpose : Purpose
 }
@@ -33,4 +33,10 @@ type SlackMessage = {
     Purpose   : string option
     Inviter   : User option
     SubType   : string option
+}
+
+type Message = {
+    UserId    : string
+    Text      : string
+    TimeStamp : string
 }
