@@ -57,5 +57,5 @@ type MessageIndexItem = {
 type Message = {
     UserId    : string
     Text      : string
-    TimeStamp : string
+    TimeStamp : float
 }

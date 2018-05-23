@@ -34,4 +34,4 @@ let getMessages (path : string) =
     |> Array.map (fun x ->
         { UserId = (x?user.AsString())
           Text = (x?text.AsString())
-          TimeStamp = (x?ts.AsString()) })
+          TimeStamp = (x?ts.AsFloat()) })
