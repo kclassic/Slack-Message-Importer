@@ -1,5 +1,5 @@
-﻿// Learn more about F# at http://fsharp.org
-open System
+﻿open System
+open Indexer
 
 [<EntryPoint>]
 let main _ =
@@ -27,5 +27,7 @@ let main _ =
     |> Array.iter (fun x -> 
         printfn "user: %s, message: %s" x.UserId x.Text)
 
-
-    0 // return an integer exit code
+    let esClient = getClient
+    createIndex esClient |> ignore
+    index esClient |> ignore
+    0
