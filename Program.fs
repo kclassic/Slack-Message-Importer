@@ -1,5 +1,6 @@
 ﻿open System
 open Indexer
+open Types
 
 [<EntryPoint>]
 let main _ =
@@ -27,7 +28,30 @@ let main _ =
     |> Array.iter (fun x -> 
         printfn "user: %s, message: %s" x.UserId x.Text)
 
-    let esClient = getClient
-    createIndex esClient |> ignore
-    index esClient |> ignore
+ 
+    let indexMessages = 
+        someMessages 
+        |> Array.map (fun x ->
+            let start = DateTime(1970,1,1,0,0,0,DateTimeKind.Utc) 
+            { UserName = 
+                (users 
+                |> Array.filter (fun y -> y.Id = x.UserId) 
+                |> Array.map (fun z -> z.Name) 
+                |> Array.head)
+              DisplayName = 
+                (users 
+                |> Array.filter (fun y -> y.Id = x.UserId) 
+                |> Array.map (fun z -> z.DisplayName) 
+                |> Array.head)
+
+              ChannelName = "general"
+              TimeStamp =  start.AddSeconds(float x.TimeStamp)
+              Text = x.Text })   
+
+    let client = getClient
+    createIndex client |> ignore
+
+    indexMessages
+    |> Array.iter (fun x -> do index client x |> ignore)
+    
     0
