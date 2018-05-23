@@ -1,6 +1,7 @@
 module Types
 
 open System
+open Nest
 
 type User = {
     Id          : string
@@ -33,6 +34,24 @@ type SlackMessage = {
     Purpose   : string option
     Inviter   : User option
     SubType   : string option
+}
+
+[<ElasticsearchType(Name = "messages")>]
+type MessageIndexItem = {
+    [<Text(Name = "user_name")>]
+    UserName : string
+    
+    [<Text(Name = "display_name")>]
+    DisplayName : string
+    
+    [<Text(Name = "channel")>]
+    ChannelName: string
+    
+    [<Date(Name = "timestamp")>]
+    TimeStamp : DateTime
+    
+    [<Text(Name = "text")>]
+    Text : string
 }
 
 type Message = {
