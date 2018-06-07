@@ -23,8 +23,8 @@ let getChannels (path : string) =
         { Id = (x?id.AsString()) 
           Name = (x?name.AsString())
           Members = (x?members.AsArray() |> Array.map (fun y -> y.AsString()))
-          Topic = { Value = (x?topic?value.AsString()) }
-          Purpose = { Value = (x?purpose?value.AsString()) }})
+          Topic = { Creator =" "; Value = (x?topic?value.AsString()); LastSet =0.0 }
+          Purpose = { Creator = " "; Value = (x?purpose?value.AsString()); LastSet = 0.0 }})
 
 let getMessages (path : string) =
     let messageJson = JsonValue.Load(path)
