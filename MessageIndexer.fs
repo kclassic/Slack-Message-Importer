@@ -24,10 +24,3 @@ let createIndex (client : IElasticClient) =
 
 let index (client : IElasticClient) (message : MessageIndexItem) = 
     client.Index<MessageIndexItem>(message)
-
-
-    
-
-
-    
-
