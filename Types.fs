@@ -123,15 +123,6 @@ type ChannelResponse = {
 
 }
 
-type Channel = {
-    
-    Id      : string
-    Name    : string
-    Members : string[]
-    Topic   : Topic
-    Purpose : Purpose
-}
-
 type SlackMessage = {
     User      : User
     Text      : string
