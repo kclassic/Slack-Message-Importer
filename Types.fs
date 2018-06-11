@@ -4,10 +4,18 @@ open System
 open Nest
 open Newtonsoft.Json
 
-type User = {
-    Id          : string
-    Name        : string
+type Profile = {
+    [<JsonProperty("display_name")>]
     DisplayName : string
+}
+type User = {
+    [<JsonProperty("id")>]
+    Id          : string
+    [<JsonProperty("name")>]
+    Name        : string
+    [<JsonProperty("profile")>]
+    Profile : Profile
+    [<JsonProperty("tz")>]
     TimeZone    : string
 }
 

@@ -11,7 +11,7 @@ let mapAndIndexMessage client (users:User list) (message:JMessage)  =
     let displayName = 
         users
         |> List.filter (fun user -> user.Id = message.User) 
-        |> List.map (fun user -> user.DisplayName) 
+        |> List.map (fun user -> user.Profile.DisplayName) 
         |> List.tryHead
 
     let userName = 
