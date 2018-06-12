@@ -1,7 +1,7 @@
 module FileImporter
-open Types
 open Newtonsoft.Json
 open System.IO
+open Types.JsonTypes
 
 let deserializeFromFile<'a> path = 
     path 
