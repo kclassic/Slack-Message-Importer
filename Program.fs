@@ -1,10 +1,20 @@
 ﻿open System
 open System.Net.Http
 open Indexer
-open Types
 open System.IO
+open System.Text
+open System.Security.Cryptography
+open Types.JsonTypes
+open Types.ElasticTypes
 
 let exitCode = 0
+
+let calculateHash user text ts =
+    (user + text + ts) 
+    |> Seq.toArray
+    |> Encoding.ASCII.GetBytes
+    |> (new SHA256Managed()).ComputeHash
+    |> Convert.ToBase64String
 
 let mapAndIndexMessage client (users:User list) (message:JMessage)  =
     let displayName = 
@@ -21,7 +31,8 @@ let mapAndIndexMessage client (users:User list) (message:JMessage)  =
 
     printfn "user = %s" message.User
     printfn "text = %s" message.Text
-    { UserName = 
+    { Id = calculateHash message.User message.Text (message.TimeStamp |> string)
+      UserName = 
         match userName with
         | Some x -> x
         | None -> ""
@@ -56,12 +67,11 @@ let main argv  =
 
     files 
     |> Array.iter(FileImporter.getMessages 
-        >> List.iter (fun message -> do mapAndIndexMessage client users message))
-
+        >> List.iter(mapAndIndexMessage client users))
     let httpClient = new HttpClient()
     
     let messages = SlackImporter.getMessages httpClient token |> Async.RunSynchronously
 
-    messages |> List.iter (fun message -> do mapAndIndexMessage client users message)   
+    messages |> List.iter(mapAndIndexMessage client users)
 
     exitCode
