@@ -3,7 +3,7 @@ open Types
 open Newtonsoft.Json
 open System.IO
 
-let desereliazeFromFile<'a> path = 
+let deserializeFromFile<'a> path = 
     path 
     |> File.ReadAllText 
     |> JsonConvert.DeserializeObject<'a>
@@ -15,10 +15,10 @@ let getChannelName path =
     |> (fun x -> x.[x.Length - 1])
     
 let getUserValues (path : string) = 
-    desereliazeFromFile<User list> path
+    deserializeFromFile<User list> path
 
 let getMessages (path : string) =
-    let messages = desereliazeFromFile<JMessage list> path
+    let messages = deserializeFromFile<JMessage list> path
     let channelName = getChannelName path
 
     messages
