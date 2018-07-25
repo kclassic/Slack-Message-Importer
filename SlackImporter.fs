@@ -2,7 +2,7 @@ module SlackImporter
 
 open System
 open System.Net.Http
-open Types
+open Types.JsonTypes
 open Newtonsoft.Json
 
 
@@ -47,8 +47,7 @@ let rec private getMessagesForChannel (client : HttpClient) token channelId chan
 
 let getMessages ( client : HttpClient ) token = async {
     let! channels = listChannels client token
-    let results = 
-        List.collect (fun x -> (getMessagesForChannel client token x.Id x.Name "" [] |> Async.RunSynchronously)) channels.Channels
+    let results = List.collect (fun x -> (getMessagesForChannel client token x.Id x.Name "" [] |> Async.RunSynchronously)) channels.Channels
         
     return results
 }

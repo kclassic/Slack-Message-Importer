@@ -1,9 +1,9 @@
 module Indexer
 
-open Types
 open System
 open Nest
 open Elasticsearch.Net
+open Types.ElasticTypes
 
 //settings to connect to local elasticsearch image
 let getClient = 
