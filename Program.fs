@@ -7,7 +7,6 @@ open System.IO
 let exitCode = 0
 
 let mapAndIndexMessage client (users:User list) (message:JMessage)  =
-    let start = DateTime(1970,1,1,0,0,0,DateTimeKind.Utc) 
     let displayName = 
         users
         |> List.filter (fun user -> user.Id = message.User) 
@@ -31,7 +30,7 @@ let mapAndIndexMessage client (users:User list) (message:JMessage)  =
         | Some x -> x
         | None -> ""
       ChannelName = message.ChannelName
-      TimeStamp =  start.AddSeconds(message.TimeStamp)
+      TimeStamp = DateTimeOffset.FromUnixTimeSeconds(message.TimeStamp |> int64) |> (fun x -> x.DateTime) 
       Text = message.Text }
     |> index client
     |> ignore
