@@ -48,9 +48,7 @@ let rec private getMessagesForChannel (client : HttpClient) token channelId chan
 let getMessages ( client : HttpClient ) token = async {
     let! channels = listChannels client token
     let results = 
-        channels.Channels
-        |> List.map (fun x -> (getMessagesForChannel client token x.Id x.Name "" [] |> Async.RunSynchronously))
-        |> List.concat
+        List.collect (fun x -> (getMessagesForChannel client token x.Id x.Name "" [] |> Async.RunSynchronously)) channels.Channels
         
     return results
 }
